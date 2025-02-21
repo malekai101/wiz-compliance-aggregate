@@ -22,9 +22,10 @@ locals {
 
 // A resource block to create an aggregate security framework from the HIPAA and SOC2 security frameworks
 resource "wiz_security_framework" "aggregate_framework" {
-  name        = var.framework_name
-  description = var.framework_description
-  enabled     = false
+  name                               = var.framework_name
+  description                        = var.framework_description
+  enabled                            = true
+  maintain_rule_links_from_framework = true
 
   dynamic "category" {
     for_each = local.framework_cats
@@ -35,8 +36,11 @@ resource "wiz_security_framework" "aggregate_framework" {
       dynamic "sub_category" {
         for_each = category.value.sub_category
         content {
-          title       = sub_category.value.title
-          description = sub_category.value.description
+          title                     = sub_category.value.title
+          description               = sub_category.value.description
+          cloud_configuration_rules = sub_category.value.cloud_configuration_rules
+          host_configuration_rules  = sub_category.value.host_configuration_rules
+          controls                  = sub_category.value.controls
         }
       }
     }
