@@ -1,15 +1,29 @@
 output "soc2_name" {
-  value = data.wiz_security_frameworks.soc2.security_frameworks[0].name
+  description = "The name of the SOC2 security framework"
+  value       = data.wiz_security_frameworks.soc2.security_frameworks[0].name
 }
 
 output "soc2_id" {
-  value = data.wiz_security_frameworks.soc2.security_frameworks[0].id
+  description = "The ID of the SOC2 security framework"
+  value       = data.wiz_security_frameworks.soc2.security_frameworks[0].id
 }
 
 output "hipaa_name" {
-  value = data.wiz_security_frameworks.hipaa.security_frameworks[0].name
+  description = "The name of the HIPAA security framework"
+  value       = data.wiz_security_frameworks.hipaa.security_frameworks[0].name
 }
 
 output "hipaa_id" {
-  value = data.wiz_security_frameworks.hipaa.security_frameworks[0].id
+  description = "The ID of the HIPAA security framework"
+  value       = data.wiz_security_frameworks.hipaa.security_frameworks[0].id
+}
+
+output "aggregate_framework_id" {
+  description = "The ID of the aggregate framework"
+  value       = wiz_security_framework.aggregate_framework.id
+}
+
+output "aggregate_framework_name" {
+  description = "The name of the aggregate framework"
+  value       = wiz_security_framework.aggregate_framework.name
 }

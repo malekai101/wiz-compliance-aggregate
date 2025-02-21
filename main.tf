@@ -1,6 +1,17 @@
 provider "wiz" {
 }
 
+// A data resources to get the HIPAA security framework
+data "wiz_security_frameworks" "hipaa" {
+  security_framework_ids = ["wf-id-2"]
+}
+
+// A data resources to get the SOC2 security framework
+data "wiz_security_frameworks" "soc2" {
+  security_framework_ids = ["wf-id-5"]
+}
+
+// A local block to concatenate the categories of the HIPAA and SOC2 security frameworks
 locals {
   framework_cats = concat(
     data.wiz_security_frameworks.hipaa.security_frameworks[0].category,
@@ -9,18 +20,10 @@ locals {
 }
 
 
-data "wiz_security_frameworks" "hipaa" {
-  security_framework_ids = ["wf-id-2"]
-}
-
-data "wiz_security_frameworks" "soc2" {
-  security_framework_ids = ["wf-id-5"]
-}
-
-
-resource "wiz_security_framework" "test" {
-  name        = "smith-aggregate-framework"
-  description = "test aggregate framework by csmith"
+// A resource block to create an aggregate security framework from the HIPAA and SOC2 security frameworks
+resource "wiz_security_framework" "aggregate_framework" {
+  name        = var.framework_name
+  description = var.framework_description
   enabled     = false
 
   dynamic "category" {
